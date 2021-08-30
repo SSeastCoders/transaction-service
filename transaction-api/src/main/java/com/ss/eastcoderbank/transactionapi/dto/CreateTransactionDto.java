@@ -2,10 +2,12 @@ package com.ss.eastcoderbank.transactionapi.dto;
 
 import com.ss.eastcoderbank.core.model.transaction.TransactionType;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import javax.validation.constraints.PastOrPresent;
+import java.time.LocalDate;
 
 @Data
 public class CreateTransactionDto {
@@ -13,7 +15,7 @@ public class CreateTransactionDto {
     private Integer accountId;
 
     @NotNull
-    private Double amount;
+    private Float amount;
 
     @NotBlank
     private String description;
@@ -21,7 +23,10 @@ public class CreateTransactionDto {
     @NotNull
     private TransactionType type;
 
-    private LocalDateTime date;
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @PastOrPresent(message = "must be today or in the past")
+    private LocalDate date;
 
     private Boolean pending;
 
