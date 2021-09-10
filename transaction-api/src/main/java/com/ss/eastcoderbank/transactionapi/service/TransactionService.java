@@ -14,8 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @AllArgsConstructor
 public class TransactionService {
@@ -31,18 +29,7 @@ public class TransactionService {
     public void postTransaction(CreateTransactionDto transaction) {
         Transaction entity = createTransactionMapper.mapToEntity(transaction);
         Account account = accountRepository.findById(transaction.getAccountId()).orElseThrow(AccountNotFoundException::new);
-        if (account.getBalance() + entity.getAmount() >= 0) {
-            account.setBalance(account.getBalance() + entity.getAmount());
-            entity.setSucceeded(true); // might need to change this if using stripe
-        } else {
-            entity.setSucceeded(false);
-        }
         entity.setAccount(account);
-        accountRepository.save(account);
         transactionRepository.save(entity);
-    }
-
-    public void postManyTransactions(List<CreateTransactionDto> transactions) {
-       transactions.forEach(this::postTransaction);
     }
 }
