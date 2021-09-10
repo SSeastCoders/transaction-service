@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/api/v1/transactions")
 @AllArgsConstructor
@@ -28,11 +27,5 @@ public class TransactionController {
     @ResponseStatus(HttpStatus.CREATED)
     public void postTransaction(@Valid @RequestBody CreateTransactionDto transaction) {
         transactionService.postTransaction(transaction);
-    }
-
-    @PostMapping("/populate")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void populateTransaction(@Valid @RequestBody List<CreateTransactionDto> transactions) {
-        transactionService.postManyTransactions(transactions);
     }
 }
