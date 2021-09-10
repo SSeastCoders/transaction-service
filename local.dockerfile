@@ -18,7 +18,8 @@ RUN mvn clean install -DskipTests
 
 FROM openjdk:11-jdk
 WORKDIR /app
-COPY --from=builder /app/transaction-api/target/transaction-api-1.0.jar /app
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /wait
-RUN chmod +x /wait
-CMD /wait && java -jar /app/transaction-api-1.0.jar
+COPY --from=builder /app/*-api/target/*.jar /app/app.jar
+ADD https://raw.githubusercontent.com/eficode/wait-for/v2.1.3/wait-for /wait-for
+RUN chmod +x /wait-for
+RUN apt-get -q update && apt-get -qy install netcat
+CMD [ "/wait-for", "mysql:3307", "-t", "300", "--", "java", "-jar", "/app/app.jar" ]
