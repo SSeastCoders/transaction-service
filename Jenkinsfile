@@ -3,7 +3,7 @@ pipeline {
     agent any
     environment {
         serviceName = 'transaction-service'
-        awsRegion = 'us-east-1'
+        //awsRegion = 'us-east-1'
         mavenProfile = 'dev'
         commitIDShort = sh(returnStdout: true, script: "git rev-parse --short HEAD")
     }
@@ -15,7 +15,7 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonarScanner') {
+                withSonarQubeEnv('SonarQubeServer') {
                     sh 'mvn sonar:sonar'
                 }
             }
@@ -27,29 +27,29 @@ pipeline {
                 }
             }
         }
-        stage('Maven Build') {
-            steps {
-                sh 'mvn clean package -P ${mavenProfile} -Dskiptests'
-            }
-        }
-        stage('Docker Image Build and ECR Image Push') {
-            steps {
-                withCredentials([string(credentialsId: 'awsAccountNumber', variable: 'awsID')]) {
-                    sh '''
-                        # authenticate aws account
-                        aws ecr get-login-password --region ${awsRegion} | docker login --username AWS --password-stdin ${awsID}.dkr.ecr.${awsRegion}.amazonaws.com
-                        docker build -t ${awsID}.dkr.ecr.us-east-1.amazonaws.com/${serviceName}:${commitIDShort} .
-                        docker push ${awsID}.dkr.ecr.us-east-1.amazonaws.com/${serviceName}:${commitIDShort}
-                        docker build -t ${awsID}.dkr.ecr.us-east-1.amazonaws.com/${serviceName}:latest .
-                        docker push ${awsID}.dkr.ecr.us-east-1.amazonaws.com/${serviceName}:latest
-                    '''
-                }
-            }
-        }
-    }
-    post {
-        success {
-            sh 'docker image prune -af'
-        }
-    }
+//         stage('Maven Build') {
+//             steps {
+//                 sh 'mvn clean package -P ${mavenProfile} -Dskiptests'
+//             }
+//         }
+//         stage('Docker Image Build and ECR Image Push') {
+//             steps {
+//                 withCredentials([string(credentialsId: 'awsAccountNumber', variable: 'awsID')]) {
+//                     sh '''
+//                         # authenticate aws account
+//                         aws ecr get-login-password --region ${awsRegion} | docker login --username AWS --password-stdin ${awsID}.dkr.ecr.${awsRegion}.amazonaws.com
+//                         docker build -t ${awsID}.dkr.ecr.us-east-1.amazonaws.com/${serviceName}:${commitIDShort} .
+//                         docker push ${awsID}.dkr.ecr.us-east-1.amazonaws.com/${serviceName}:${commitIDShort}
+//                         docker build -t ${awsID}.dkr.ecr.us-east-1.amazonaws.com/${serviceName}:latest .
+//                         docker push ${awsID}.dkr.ecr.us-east-1.amazonaws.com/${serviceName}:latest
+//                     '''
+//                 }
+//             }
+//         }
+//     }
+//     post {
+//         success {
+//             sh 'docker image prune -af'
+//         }
+//     }
 }
