@@ -32,7 +32,7 @@ public class TransactionService {
         Transaction entity = createTransactionMapper.mapToEntity(transaction);
         Account account = accountRepository.findById(transaction.getAccountId()).orElseThrow(AccountNotFoundException::new);
         if (account.getBalance() + entity.getAmount() >= 0) {
-            account.setBalance(account.getBalance() + entity.getAmount());
+            account.setBalance((float) (account.getBalance() + entity.getAmount()));
             entity.setSucceeded(true); // might need to change this if using stripe
         } else {
             entity.setSucceeded(false);
