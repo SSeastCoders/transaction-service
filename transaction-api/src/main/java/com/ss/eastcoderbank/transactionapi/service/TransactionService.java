@@ -12,6 +12,7 @@ import com.ss.eastcoderbank.transactionapi.mapper.CreateTransactionMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +25,12 @@ public class TransactionService {
     private final CreateTransactionMapper createTransactionMapper;
     private final AccountRepository accountRepository;
 
-    public Page<TransactionDto> getTransactionByAccount(Integer id, Integer page, Integer size) {
-        return transactionRepository.findTransactionByAccountId(id, PageRequest.of(page, size)).map(transactionMapper::mapToDto);
+    public Page<TransactionDto> getTransactionByAccount(Integer id, Integer page, Integer size, String search) {
+        return transactionRepository.findTransactionByAccountIdAndDescriptionContaining(id, PageRequest.of(page, size), search).map(transactionMapper::mapToDto);
+    }
+
+    public Page<TransactionDto> getTransactionsByOptions(Integer id, Integer page, Integer size, TransactionOptions options) {
+        return transactionRepository.findTransactionByOptions(id, options.getSearch(), options.getFromDate(), options.getToDate(), options.getFromAmount(), options.getToAmount(), PageRequest.of(page, size, Sort.Direction.DESC, "date")).map(transactionMapper::mapToDto);
     }
 
     public void postTransaction(CreateTransactionDto transaction) {
