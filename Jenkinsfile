@@ -28,6 +28,12 @@ pipeline {
             }
         }
     }
+    post {
+        success {
+            sh 'docker image prune -af'
+        }
+    }
+}
 //         stage('Maven Build') {
 //             steps {
 //                 sh 'mvn clean package -P ${mavenProfile} -Dskiptests'
@@ -48,9 +54,4 @@ pipeline {
 //             }
 //         }
 //     }
-//     post {
-//         success {
-//             sh 'docker image prune -af'
-//         }
-//     }
-}
+
