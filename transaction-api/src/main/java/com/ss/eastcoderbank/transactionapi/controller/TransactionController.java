@@ -56,4 +56,8 @@ public class TransactionController {
     public void populateTransaction(@Valid @RequestBody List<CreateTransactionDto> transactions) {
         transactionService.postManyTransactions(transactions);
     }
+
+    @GetMapping("/health")
+    @ResponseStatus(HttpStatus.OK)
+    public void healthCheck() {}
 }
