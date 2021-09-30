@@ -58,7 +58,6 @@ public class TransactionController {
         transactionService.postManyTransactions(transactions);
     }
 
-    @PermitAll
     @GetMapping("/health")
     @ResponseStatus(HttpStatus.OK)
     public void healthCheck() {}
