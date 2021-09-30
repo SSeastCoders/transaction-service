@@ -16,7 +16,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/SSeastCoders/transaction-service">
-    <img src="transaction-api/src/main/resources/SimpleBankLogo.png" alt="Logo" width="100" height="100">
+    <img src="core-library/src/main/resources/SimpleBankLogo.png" alt="Logo" width="100" height="100">
   </a>
 
 <h3 align="center">Eastcoder Bank - Transaction Service</h3>
@@ -145,4 +145,4 @@ To view the entire Eastcoder Bank application visit: [https://github.com/SSeastC
 [contributors-url]: https://github.com/SSeastCoders/transaction-service/graphs/contributors
 [contributions-shield]: https://img.shields.io/github/commit-activity/m/SSeastCoders/transaction-service?style=for-the-badge
 [size-shield]: https://img.shields.io/github/languages/code-size/SSeastCoders/transaction-service?style=for-the-badge
-[product-screenshot]: transaction-api/src/main/resources/HomePage.PNG
+[product-screenshot]: core-library/src/main/resources/HomePage.PNG
