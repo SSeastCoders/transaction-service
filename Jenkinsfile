@@ -17,20 +17,20 @@ pipeline {
                 sh 'mvn clean test'
             }
         }
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('sonarScanner') {
-                    sh 'mvn sonar:sonar'
-                }
-            }
-        }
-        stage('Quality Gate') {
-            steps {
-                timeout(time: 10, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         withSonarQubeEnv('sonarScanner') {
+        //             sh 'mvn sonar:sonar'
+        //         }
+        //     }
+        // }
+        // stage('Quality Gate') {
+        //     steps {
+        //         timeout(time: 10, unit: 'MINUTES') {
+        //             waitForQualityGate abortPipeline: true
+        //         }
+        //     }
+        // }
         stage('Maven Build') {
             steps {
                 sh 'mvn clean package -P ${mavenProfile} -Dskiptests'
