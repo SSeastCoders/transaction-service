@@ -46,6 +46,11 @@ pipeline {
                 }
             }
         }
+        stage('Deploy to EKS') {
+            steps {
+                sh 'ansible-playbook playbooks/deploy-transaction-service.yml'
+            }
+        }
     }
     post {
         success {
