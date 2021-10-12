@@ -7,4 +7,4 @@
 
   - name: Deploy transaction-api
     shell: |
-      kubectl apply -f ../kubernetes-resources/transaction-api-deployment.yml
+      kubectl apply -f ../kubernetes-resources/transaction-api-deploy.yml
