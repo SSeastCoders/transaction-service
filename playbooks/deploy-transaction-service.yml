@@ -1,0 +1,10 @@
+- name: Deploy transaction-service to eks cluster
+  hosts: localhost
+  tasks:
+  - name: Deploy transaction-api Service
+    shell: |
+      kubectl apply -f ../kubernetes-resources/transaction-api-service.yml
+
+  - name: Deploy transaction-api
+    shell: |
+      kubectl apply -f ../kubernetes-resources/transaction-api-deployment.yml
