@@ -36,21 +36,25 @@ public class ExceptionController {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorMessage> forbidden(AccessDeniedException exception) {
+        log.warn("Accesses denied");
         return new ResponseEntity<>(new ErrorMessage(HttpStatus.FORBIDDEN.toString(), exception.getMessage()), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(JsonParseException.class)
     public ResponseEntity<ErrorMessage> jsonParseFailure(JsonParseException exception) {
+        log.warn("json parse failure");
         return new ResponseEntity<>(new ErrorMessage(HttpStatus.BAD_REQUEST.toString(), "Not valid json. " +  exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorMessage> noUserFound(UserNotFoundException exception) {
+        log.warn("User not found");
         return new ResponseEntity<>(new ErrorMessage(HttpStatus.NOT_FOUND.toString(), exception.getMessage()), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(AccountNotFoundException.class)
     public ResponseEntity<ErrorMessage> duplicateConstraints(AccountNotFoundException exception) {
+        log.warn("Duplicate contraint");
         return new ResponseEntity<>(new ErrorMessage(HttpStatus.CONFLICT.toString(), exception.getMessage()), HttpStatus.CONFLICT);
     }
 }
